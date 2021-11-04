@@ -6,16 +6,45 @@ FROM centos:7
 WORKDIR /root
 
 # install utils
-RUN yum -y update
-RUN yum -y install bc libgomp perl tar tcsh wget vim-common
-RUN yum -y install mesa-libGL libXext libSM libXrender libXmu
+RUN yum -y update && yum -y install\
+    bc \
+    libgomp \
+    perl \
+    tar \
+    tcsh \
+    wget \
+    vim-common \
+    mesa-libGL \
+    libXext \
+    libSM \
+    libXrender \
+    libXmu \
+    git \
+    wget \
+    tcsh \
+    gcc \
+    gcc-c++ \
+    libgfortran-static \
+    make \
+    vim-common \
+    lapack-devel \
+    lapack-static \
+    blas-devel \
+    blas-static \
+    zlib-devel \
+    python-devel \
+    python3-devel \
+    libX11-devel \
+    libXmu-devel \
+    mesa-libGL-devel
+
 RUN yum clean all
 
 # install fs
-RUN wget https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/7.2.0/freesurfer-linux-centos7_x86_64-7.2.0.tar.gz -O fs.tar.gz && \
-    tar --no-same-owner -xzvf fs.tar.gz && \
-    mv freesurfer /usr/local && \
-    rm fs.tar.gz
+RUN git clone https://github.com/freesurfer/freesurfer.git
+RUN git remote add datasrc https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/repo/annex.gita && git fetch datasrc && git-annex get .
+RUN wget https://surfer.nmr.mgh.harvard.edu/pub/data/fspackages/prebuilt/centos7-packages.tar.gz && tar -xzvf centos7-packages.tar.gz
+RUN cmake .  -DFS_PACKAGES_DIR="./"
 
 # setup fs env
 ENV OS Linux

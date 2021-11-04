@@ -467,3 +467,6 @@ utils/xmlToHtml
 # testdata
 */testdata
 Testing
+
+# Mac file-system cruft:
+.DS_Store
