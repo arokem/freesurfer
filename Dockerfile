@@ -36,13 +36,18 @@ RUN yum -y update && yum -y install\
     python3-devel \
     libX11-devel \
     libXmu-devel \
-    mesa-libGL-devel \
-    cmake
+    mesa-libGL-devel
 
 RUN yum clean all
+
+# Install git annex:
 RUN curl https://downloads.kitenet.net/git-annex/linux/current/rpms/git-annex.repo > /etc/yum.repos.d/git-annex.repo && yum install -y git-annex-standalone
 
+# Git annex requires git to be configured
 RUN   git config --global user.email "ci@github.com" && git config --global user.name "Github Actions"
+
+# Get a relatively new version of CMake (https://gist.github.com/1duo/38af1abd68a2c7fe5087532ab968574e):
+RUN wget https://cmake.org/files/v3.12/cmake-3.12.3.tar.gz && tar zxvf cmake-3.* && cd cmake-3.* && ./bootstrap --prefix=/usr/local && make -j$(nproc) && make install
 
 # install fs
 RUN git clone https://github.com/freesurfer/freesurfer.git && cd freesurfer && git remote add datasrc https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/repo/annex.git && git fetch datasrc && git-annex get . && wget https://surfer.nmr.mgh.harvard.edu/pub/data/fspackages/prebuilt/centos7-packages.tar.gz && tar -xzvf centos7-packages.tar.gz && cmake .  -DFS_PACKAGES_DIR="./"
