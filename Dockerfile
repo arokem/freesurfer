@@ -36,7 +36,8 @@ RUN yum -y update && yum -y install\
     python3-devel \
     libX11-devel \
     libXmu-devel \
-    mesa-libGL-devel
+    mesa-libGL-devel \
+    git-annex
 
 RUN yum clean all
 
