@@ -36,7 +36,8 @@ RUN yum -y update && yum -y install\
     python3-devel \
     libX11-devel \
     libXmu-devel \
-    mesa-libGL-devel
+    mesa-libGL-devel \
+    cmake
 
 RUN yum clean all
 RUN curl https://downloads.kitenet.net/git-annex/linux/current/rpms/git-annex.repo > /etc/yum.repos.d/git-annex.repo && yum install -y git-annex-standalone
