@@ -39,7 +39,12 @@ RUN yum -y update && yum -y install\
     mesa-libGL-devel
 
 RUN yum clean all
-RUN wget https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/g/git-annex-5.20140221-1.2.el7.x86_64.rpm && yum localinstall git-annex-5.20140221-1.2.el7.x86_64.rpm
+RUN yum install libxml2-devel gnutls-devel libgsasl-devel ghc cabal-install happy alex libidn-devel
+RUN cabal update
+RUN cabal install --bindir=$HOME/bin c2hs
+RUN cabal install --bindir=$HOME/bin git-annex
+
+
 
 # install fs
 RUN git clone https://github.com/freesurfer/freesurfer.git && cd freesurfer && git remote add datasrc https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/repo/annex.git && git fetch datasrc && git-annex get . && wget https://surfer.nmr.mgh.harvard.edu/pub/data/fspackages/prebuilt/centos7-packages.tar.gz && tar -xzvf centos7-packages.tar.gz && cmake .  -DFS_PACKAGES_DIR="./"
