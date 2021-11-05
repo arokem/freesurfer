@@ -41,7 +41,7 @@ RUN yum -y update && yum -y install\
 RUN yum clean all
 
 # install fs
-RUN git clone https://github.com/freesurfer/freesurfer.git
+RUN git clone https://github.com/freesurfer/freesurfer.git && cd freesurfer
 RUN git remote add datasrc https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/repo/annex.gita && git fetch datasrc && git-annex get .
 RUN wget https://surfer.nmr.mgh.harvard.edu/pub/data/fspackages/prebuilt/centos7-packages.tar.gz && tar -xzvf centos7-packages.tar.gz
 RUN cmake .  -DFS_PACKAGES_DIR="./"
