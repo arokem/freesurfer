@@ -50,7 +50,7 @@ RUN   git config --global user.email "ci@github.com" && git config --global user
 RUN wget https://cmake.org/files/v3.12/cmake-3.12.3.tar.gz && tar zxvf cmake-3.* && cd cmake-3.* && ./bootstrap --prefix=/usr/local && make -j$(nproc) && make install
 
 # install fs
-RUN git clone https://github.com/freesurfer/freesurfer.git && cd freesurfer && git remote add datasrc https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/repo/annex.git && git fetch datasrc && git-annex get . && wget https://surfer.nmr.mgh.harvard.edu/pub/data/fspackages/prebuilt/centos7-packages.tar.gz && tar -xzvf centos7-packages.tar.gz && cmake .  -DFS_PACKAGES_DIR="./" -ITK_DIR="/usr/local/"
+RUN git clone https://github.com/freesurfer/freesurfer.git && cd freesurfer && git remote add datasrc https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/repo/annex.git && git fetch datasrc && git-annex get . && wget https://surfer.nmr.mgh.harvard.edu/pub/data/fspackages/prebuilt/centos7-packages.tar.gz && tar -xzvf centos7-packages.tar.gz && cmake  -D ITK_DIR="/usr/local/" -DFS_PACKAGES_DIR="./" .
 
 # setup fs env
 ENV OS Linux
