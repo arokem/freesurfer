@@ -41,6 +41,8 @@ RUN yum -y update && yum -y install\
 RUN yum clean all
 RUN curl https://downloads.kitenet.net/git-annex/linux/current/rpms/git-annex.repo > /etc/yum.repos.d/git-annex.repo && yum install -y git-annex-standalone
 
+RUN   git config --global user.email "ci@github.com" && git config --global user.name "Github Actions"
+
 # install fs
 RUN git clone https://github.com/freesurfer/freesurfer.git && cd freesurfer && git remote add datasrc https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/repo/annex.git && git fetch datasrc && git-annex get . && wget https://surfer.nmr.mgh.harvard.edu/pub/data/fspackages/prebuilt/centos7-packages.tar.gz && tar -xzvf centos7-packages.tar.gz && cmake .  -DFS_PACKAGES_DIR="./"
 
